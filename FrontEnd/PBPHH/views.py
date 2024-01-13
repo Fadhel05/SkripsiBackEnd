@@ -31,7 +31,15 @@ class PegawaiView(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         serializer = self.serializer_class(self.get_queryset(),many=True)
         return Response(serializer.data,status.HTTP_200_OK)
-
+    @action(detail=False, methods=["post"])
+    def login(self,request,*args,**kwargs):
+        try:
+            role = self.queryset.get(username=request.data["username"], password=request.data["password"])
+            role = role.departemen
+        except Exception as e:
+            role =False
+        print(role);
+        return Response({"data":role},status=status.HTTP_200_OK)
 class PermohonanView(viewsets.ModelViewSet):
     queryset = PermohonanModel.objects.all()
     query_perusahaan = PerusahaanModel.objects.all()
@@ -201,3 +209,4 @@ class testCreateDokumen(viewsets.ModelViewSet):
         # response['Content-Security-Policy'] = "default-src 'self' frame-ancestors http://localhost:3000 http://localhost:3000/ *"
         return response
         # return Response({"data":"filex.read()"},status.HTTP_200_OK)
+

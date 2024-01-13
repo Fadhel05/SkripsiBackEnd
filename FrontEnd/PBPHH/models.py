@@ -7,7 +7,8 @@ from django.db import models
 
 class PegawaiModel(models.Model):
     id_pegawai  =models.BigAutoField(primary_key=True)
-    nama  = models.CharField(max_length=20)
+    username  = models.CharField(max_length=20)
+    password  = models.CharField(max_length=20)
     departemen = models.CharField(max_length=10)
     class Meta:
         db_table='pegawai'

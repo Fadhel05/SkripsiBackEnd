@@ -6,8 +6,9 @@ from FrontEnd.PBPHH.models import PegawaiModel, PermohonanModel, PerusahaanModel
 
 class PegawaiSerializer(serializers.Serializer):
     id_pegawai  = serializers.IntegerField(required=False)
-    nama  = serializers.CharField(max_length=20)
-    departemen = serializers.CharField(max_length=10)
+    username  = serializers.CharField(max_length=20)
+    password  = serializers.CharField(max_length=20)
+    departemen = serializers.ChoiceField(choices=('fd','pb','kabid_phpl','kadis'))
     class Meta:
         model = PegawaiModel
         exclude = []

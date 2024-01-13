@@ -10,6 +10,7 @@ router.register(r'test',testCreateDokumen)
 urlpatterns = [
 
     path('', include(router.urls)),
+    path('login',PegawaiView.as_view({"post":"login"})),
     path('get/permohonan/skala/besar/<str:ranger>/',PermohonanView.as_view({"get":"listsheet"})),
     path('get/permohonan/skala/kecil/<str:ranger>/',PermohonanView.as_view({"get":"listshee"})),
     path('edit/permohonan/skala/kecils/<int:pk>/',PermohonanView.as_view({"put":"updateskala"})),
