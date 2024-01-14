@@ -64,10 +64,21 @@ class PermohonanView(viewsets.ModelViewSet):
         return Response(jeng,status=status.HTTP_200_OK)
     @action(detail=False,methods=["get"])
     def listshee(self,request,*args,**kwargs):
-        print(kwargs)
-        query = self.queryset.filter(posisi=kwargs["ranger"],skala="Kecil")
-        serial = self.serializer_class(query,many=True)
-        return Response(serial.data,status=status.HTTP_200_OK)
+        query = self.queryset.filter(posisi=kwargs["ranger"], skala="Kecil")
+        serial = self.serializer_class(query, many=True)
+        mentah = serial.data[::-1]
+        jeng = []
+        jing = []
+        for x in range(len(mentah)):
+            if ((x + 1) % 2 == 0):
+                jing.append(mentah[x])
+                jeng.append(jing)
+                jing = []
+            else:
+                jing.append(mentah[x])
+        if len(jing) > 0:
+            jeng.append(jing)
+        return Response(jeng, status=status.HTTP_200_OK)
     @action(detail=False, method=['put'])
     def listkele(self,request,*args,**kwargs):
         try:
@@ -96,7 +107,6 @@ class PermohonanView(viewsets.ModelViewSet):
     def createskalabesar(self,request,*args,**kwargs):
         request.data["Perusahaan"]["jenis_produk"] = json.dumps(request.data["Perusahaan"]["jenis_produk"])
         request.data["Perusahaan"]["daftar_mesin"] = json.dumps(request.data["Perusahaan"]["daftar_mesin"])
-        print(request.data)
         serialperusahaan = PerusahaanSerializer(data=request.data["Perusahaan"])
         serialperusahaan.is_valid(raise_exception=True)
         serialperusahaan.save()
@@ -105,8 +115,6 @@ class PermohonanView(viewsets.ModelViewSet):
         serializers = self.serializer_class(data=request.data["Permohonan"])
         serializers.is_valid(raise_exception=True)
         serializers.save()
-
-        print("pass")
         # for e in request.data["Dokumen"]:
         #     print(e)
         #     e["id_permohonan"] = serializers.data["id_request"]
